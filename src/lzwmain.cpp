@@ -48,8 +48,6 @@ int main() {
             test_convertToBinary();
         } else if (choice == "2") {
             test_encodeData();
-        } else if (choice == "3") {
-            test_decodeData();
         } else if (choice == "C") {
             test_compress();
         } else if (choice == "D") {
@@ -84,7 +82,6 @@ string menu() {
     cout << endl;
     cout << "1) convert to binary" << endl;
     cout << "2) Encode data" << endl;
-    cout << "3) Decode data" << endl;
     cout << endl;
     cout << "C) compress file" << endl;
     cout << "D) decompress file" << endl;
@@ -122,31 +119,6 @@ void test_encodeData() {
     Vector<int> encoded = encodeData(*input);
     cout << "Vector containing the integer representation of the compressed data:" << endl;
     cout << encoded <<endl;
-    delete input;
-}
-
-/*
- * Tests the decodeData function.
- * Uses the given encoding tree, presumably one encoded previously in step 2
- * by buildEncodingTree.
- * Prompts for a file or string of binary input data and decodes it into a
- * string output stream, then prints the text on the console.
- */
-void test_decodeData() {
-    string data;
-    bool isFile;
-    ibitstream* input = (ibitstream*) openStringOrFileInputStream(data, isFile, /* isBits */ true);
-    ostringstream output;
-
-    cout << "Decoding data ..." << endl;
-    output << decodeData(*input);
-    output.flush();
-
-    string decoded = output.str();
-    cout << "Here is the decoded data ("
-         << decoded.length() << " bytes):" << endl;
-    cout << decoded << endl;
-
     delete input;
 }
 

@@ -23,6 +23,10 @@ Vector<int> encodeData(istream& input) {
             output.push_back(dictionary[w]);
             w = ch;
         }
+        if (dictSize > MAX_DICT_SIZE) {
+            dictSize = INITIAL_DICT_SIZE;
+            dictionary = buildCompressionDict();
+        }
     }
     output.push_back(dictionary[w]);
     output.push_back(0);
@@ -63,8 +67,7 @@ void writeToFile(Vector<int> compressed, obitstream& output) {
 
 void compress (ifstream& input, ofbitstream& output) {
     Vector<int> encodedData = encodeData(input);
-    //writeToFile(encodedData, output);
-    output << encodedData;
+    writeToFile(encodedData, output);
 }
 
 unordered_map<int, string> buildDecompressionDict() {
@@ -103,6 +106,10 @@ string decodeData(ibitstream& input) {
         } else {
             dictionary[dictSize ++] = dictionary[prevCode] + dictionary[prevCode][0];
             output += dictionary[dictSize - 1];
+        }
+        if (dictSize > MAX_DICT_SIZE) {
+            dictSize = INITIAL_DICT_SIZE;
+            dictionary = buildDecompressionDict();
         }
         prevCode = code;
     }
